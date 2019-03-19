@@ -12,7 +12,9 @@ key = ENV["LOCAL_IQ"]
 
 # ap JSON.parse(response.body)
 
-seven_wonders_locations = seven_wonders.map do |wonder|
+seven_wonders_locations = Hash.new
+
+seven_wonders.map do |wonder|
   sleep(1)
   query_parameters = {
     'key': key,
@@ -20,9 +22,8 @@ seven_wonders_locations = seven_wonders.map do |wonder|
     'format': 'json'
   }
   response = HTTParty.get(BASE_URL, query: query_parameters)
-  {
-    wonder => { "lat" => response[0]["lat"], "lng" => response[0]["lon"] }
-  }
+  
+  seven_wonders_locations[wonder] = { "lat" => response[0]["lat"], "lng" => response[0]["lon"] } 
 end
 
 ap seven_wonders_locations
